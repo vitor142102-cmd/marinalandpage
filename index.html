@@ -8,10 +8,11 @@
 <meta property="og:title" content="Mari Mafra | Liberação Miofascial & Ventosaterapia">
 <meta property="og:description" content="Cuidado, bem-estar e qualidade de vida. Agende sua sessão.">
 <meta name="theme-color" content="#F8F2EA">
+<link rel="icon" type="image/png" href="img/logo-lotus.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Manrope:wght@400;500;600;700&family=Allura&display=swap" rel="stylesheet">
 
 <!-- Tailwind (Play CDN) -->
 <script src="https://cdn.tailwindcss.com/3.4.16"></script>
@@ -37,6 +38,7 @@
         fontFamily: {
           serif: ['Fraunces', 'Georgia', 'serif'],
           sans: ['Manrope', 'system-ui', 'sans-serif'],
+          script: ['Allura', 'cursive'],
         },
         boxShadow: {
           soft: '0 20px 50px -24px rgba(90,58,42,.35)',
@@ -54,7 +56,7 @@
   ::selection { background: #B86B4B; color: #FFFCF8; }
   details summary::-webkit-details-marker { display: none; }
   /* Tela de espera enquanto o React compila */
-  #boot { position: fixed; inset: 0; background: #5A3A2A; z-index: 200; }
+  #boot { position: fixed; inset: 0; background: radial-gradient(circle at 50% 40%, #FAF0EC, #F1DCD5 70%); z-index: 200; }
 </style>
 
 <!-- React + Framer Motion + Lenis (scroll suave) -->
@@ -292,42 +294,36 @@ function Intro({ show }) {
       {show && (
         <motion.div
           key="intro"
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cocoa text-sand"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[radial-gradient(circle_at_50%_40%,#FAF0EC,#F1DCD5_70%)] text-cocoa"
           exit={{ y: '-100%', borderBottomLeftRadius: '50% 18%', borderBottomRightRadius: '50% 18%' }}
           transition={{ duration: 1, ease: EASE_INOUT }}
         >
-          <motion.div
-            initial={{ scale: 0.4, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.9, ease: EASE }}
-            className="relative grid h-20 w-20 place-items-center rounded-full bg-[radial-gradient(circle_at_35%_30%,#D99A78,#B86B4B_55%,#8F4C33)] font-serif text-4xl italic text-paper"
-          >
-            M
+          <div className="relative">
             {[0, 1].map((i) => (
               <motion.span
                 key={i}
-                className="absolute inset-0 rounded-full border border-peach/50"
-                animate={{ scale: [1, 2.2], opacity: [0.6, 0] }}
-                transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.8, ease: 'easeOut' }}
+                className="absolute left-1/2 top-[28%] -ml-20 -mt-20 h-40 w-40 rounded-full border border-clay/30"
+                animate={{ scale: [0.6, 2], opacity: [0.6, 0] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.4 + i * 1, ease: 'easeOut' }}
               />
             ))}
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.8, ease: EASE }}
-            className="mt-6 font-serif text-2xl"
-          >
-            Mari Mafra
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.7 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-1 text-[0.7rem] uppercase tracking-[0.25em]"
-          >
-            Cuidado · bem-estar · qualidade de vida
-          </motion.p>
+            <motion.img
+              src="img/logo-completa.png"
+              alt="Mari Mafra - Liberação Miofascial"
+              initial={{ opacity: 0, scale: 0.92, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              transition={{ duration: 1.1, ease: EASE }}
+              className="relative w-[250px] sm:w-[320px]"
+            />
+          </div>
+          <div className="mt-8 h-px w-40 overflow-hidden bg-cocoa/10">
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1.7, ease: [0.65, 0, 0.35, 1] }}
+              className="h-full origin-left bg-clay"
+            />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
@@ -337,16 +333,19 @@ function Intro({ show }) {
 /* ------------------------------------------------------------------ */
 /* Header                                                              */
 /* ------------------------------------------------------------------ */
-const NAV = [['#sobre', 'Sobre'], ['#terapias', 'Terapias'], ['#beneficios', 'Benefícios'], ['#feedbacks', 'Feedbacks'], ['#duvidas', 'Dúvidas']];
+const NAV = [['#sobre', 'Sobre'], ['#terapias', 'Terapias'], ['#resultados', 'Resultados'], ['#feedbacks', 'Feedbacks'], ['#duvidas', 'Dúvidas']];
 
 const Logo = ({ light = false, sub = 'Terapias corporais' }) => (
-  <a href="#top" className="flex items-center gap-3" aria-label="Mari Mafra - início">
-    <motion.span
-      whileHover={{ rotate: -12, scale: 1.06 }}
-      className="grid h-[42px] w-[42px] place-items-center rounded-full bg-[radial-gradient(circle_at_35%_30%,#D99A78,#B86B4B_55%,#8F4C33)] font-serif text-xl italic text-paper shadow-[inset_0_-4px_10px_rgba(0,0,0,.15)]"
-    >M</motion.span>
+  <a href="#top" className="group flex items-center gap-3" aria-label="Mari Mafra - início">
+    <motion.img
+      src="img/logo-lotus.png"
+      alt=""
+      whileHover={{ scale: 1.08, y: -2 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 14 }}
+      className={`h-[34px] w-auto ${light ? '[filter:brightness(0)_invert(1)] opacity-90' : ''}`}
+    />
     <span className="leading-tight">
-      <strong className={`block font-serif text-xl font-medium ${light ? 'text-paper' : 'text-cocoa'}`}>Mari Mafra</strong>
+      <strong className={`block font-serif text-xl font-medium italic ${light ? 'text-paper' : 'text-cocoa'}`}>Mari Mafra</strong>
       <span className={`text-[0.66rem] uppercase tracking-[0.16em] ${light ? 'text-sage' : 'text-sagedeep'}`}>{sub}</span>
     </span>
   </a>
@@ -546,7 +545,7 @@ function Hero({ ready }) {
       <Container className="relative grid items-center gap-12 lg:grid-cols-[1.1fr_.9fr] lg:gap-16">
         <motion.div style={{ y: textY, opacity: fade }}>
           <motion.span {...item(0.1)} className="flex items-center gap-3 text-[0.74rem] font-bold uppercase tracking-[0.2em] text-sagedeep">
-            <span className="h-px w-7 bg-current" />Liberação Miofascial & Ventosaterapia
+            <span className="h-px w-7 bg-current" />Mari Mafra · Miofascial & Ventosa
           </motion.span>
           <SplitHeading
             as="h1"
@@ -556,8 +555,8 @@ function Hero({ ready }) {
             className="mb-6 mt-5 font-serif text-[clamp(2.6rem,6.2vw,5rem)] font-normal leading-[1.06] tracking-tight text-cocoa"
           />
           <motion.p {...item(0.7)} className="max-w-[54ch] text-[1.12rem] leading-relaxed text-muted">
-            Alivie dores, solte tensões e recupere a mobilidade com terapias manuais conduzidas por uma
-            técnica de enfermagem que enxerga você por inteiro.
+            Sou a Mari, técnica de enfermagem. Com liberação miofascial e ventosaterapia, ajudo você a
+            aliviar dores, soltar tensões e recuperar a leveza do corpo, com técnica, escuta e carinho.
           </motion.p>
           <motion.div {...item(0.85)} className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Magnetic className="w-full sm:w-auto"><Button href={wa()} className="w-full sm:w-auto"><WaIcon /> Agendar pelo WhatsApp</Button></Magnetic>
@@ -593,14 +592,15 @@ function Hero({ ready }) {
               className="absolute inset-0 grid place-items-center"
             >
               <CupsArt />
+              <img src="img/marina-atendimento.webp" alt="Mari Mafra realizando liberação miofascial nas costas de uma cliente" onError={(e) => e.currentTarget.remove()} className="absolute inset-0 h-full w-full object-cover object-[50%_25%]" />
             </motion.div>
-            {/* Foto da Mari: salve como img/marina-hero.jpg */}
-            <img src="img/marina-hero.jpg" alt="Mari Mafra em atendimento" onError={(e) => e.currentTarget.remove()} className="absolute inset-0 z-10 h-full w-full object-cover" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-cocoa/55 to-transparent" />
           </motion.div>
           <FloatCard ready={ready} delay={1.5} floatDelay={0} className="-left-6 bottom-16 sm:-left-10"
-            icon={<Heart />} iconClass="bg-sagesoft text-sagedeep" title="Alívio das dores" sub="desde a 1ª sessão" />
+            icon={<img src="img/marina-retrato.jpg" alt="" className="absolute left-[-192%] top-[-15%] w-[450%] max-w-none" />}
+            iconClass="relative overflow-hidden bg-sand ring-2 ring-paper" title="Mari Mafra" sub="Técnica de Enfermagem" />
           <FloatCard ready={ready} delay={1.7} floatDelay={3} className="-right-4 top-10 sm:-right-8 sm:top-14"
-            icon={<Sun />} iconClass="bg-[#F3DED2] text-clay" title="Circulação ativa" sub="corpo mais leve" />
+            icon={<Heart />} iconClass="bg-[#F3DED2] text-clay" title="Alívio das dores" sub="desde a 1ª sessão" />
         </motion.div>
       </Container>
 
@@ -707,8 +707,7 @@ function About() {
                   <motion.path key={i} d={d} initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1.4, delay: 1 + i * 0.25, ease: EASE }} />
                 ))}
               </svg>
-              {/* Foto da Mari: salve como img/marina-sobre.jpg */}
-              <img src="img/marina-sobre.jpg" alt="Retrato de Mari Mafra" onError={(e) => e.currentTarget.remove()} className="absolute inset-0 h-full w-full object-cover" />
+              <img src="img/marina-retrato.jpg" alt="Retrato de Mari Mafra" onError={(e) => e.currentTarget.remove()} className="absolute inset-0 h-full w-full object-cover object-[66%_50%]" />
             </motion.div>
           </motion.div>
           <RotatingBadge />
@@ -723,6 +722,15 @@ function About() {
           <Reveal as="p" delay={0.2} className="mt-4 max-w-[56ch] text-[1.06rem] leading-relaxed text-muted">
             Cada atendimento começa entendendo a sua rotina, suas dores e seus objetivos. A partir disso, combino liberação miofascial e ventosaterapia para devolver ao seu corpo leveza, movimento e qualidade de vida.
           </Reveal>
+          <motion.div initial="h" whileInView="s" viewport={{ once: true, margin: '-60px' }} className="mt-5">
+            <motion.p
+              variants={{ h: { clipPath: 'inset(0 100% 0 0)' }, s: { clipPath: 'inset(0 0% 0 0)', transition: { duration: 2, ease: [0.45, 0, 0.25, 1], delay: 0.4 } } }}
+              className="inline-block pr-4 font-script text-[3.4rem] leading-none text-clay"
+              aria-label="Assinatura: Mari Mafra"
+            >
+              Mari Mafra
+            </motion.p>
+          </motion.div>
           <motion.div
             initial="h" whileInView="s" viewport={{ once: true, margin: '-60px' }}
             variants={{ s: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } } }}
@@ -851,6 +859,183 @@ function Services() {
             <Magnetic className="relative w-full sm:w-auto"><Button href={wa('Olá, Mari! Quero saber mais sobre a sessão integrada (liberação + ventosa).')} className="w-full shrink-0 !shadow-none sm:w-auto">Saber mais <Arrow /></Button></Magnetic>
           </div>
         </Reveal>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Resultados — comparador antes/depois (arraste)                      */
+/* A imagem img/antes-depois.jpg (1440x1920) é uma montagem; cada      */
+/* lado é recortado aqui por coordenadas, alinhando o tronco.          */
+/* ------------------------------------------------------------------ */
+const AD_SRC = 'img/antes-depois.jpg';
+const AD_W = 1440, AD_H = 1920;
+const CROP_ANTES = { x: 207, y: 238, s: 580 };
+const CROP_DEPOIS = { x: 556, y: 1267, s: 650 };
+
+function Crop({ crop, alt }) {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <img
+        src={AD_SRC}
+        alt={alt}
+        draggable="false"
+        className="absolute max-w-none select-none"
+        style={{
+          width: `${(AD_W / crop.s) * 100}%`,
+          left: `${(-crop.x / crop.s) * 100}%`,
+          top: `${(-crop.y / crop.s) * 100}%`,
+        }}
+      />
+    </div>
+  );
+}
+
+function BeforeAfter() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-120px' });
+  const pos = useMotionValue(50);
+  const smooth = useSpring(pos, { stiffness: 260, damping: 32 });
+  const clip = useTransform(smooth, (v) => `inset(0 ${100 - v}% 0 0)`);
+  const left = useTransform(smooth, (v) => `${v}%`);
+  const antesOp = useTransform(smooth, [8, 25], [0, 1]);
+  const depoisOp = useTransform(smooth, [75, 92], [1, 0]);
+  const [dragging, setDragging] = useState(false);
+  const touched = useRef(false);
+
+  // Demonstração automática ao entrar na tela (mostra que dá para arrastar)
+  useEffect(() => {
+    if (!inView) return;
+    const seq = [[82, 0.9], [18, 1.1], [50, 0.9]];
+    let cancelled = false;
+    (async () => {
+      await new Promise((r) => setTimeout(r, 500));
+      for (const [to, d] of seq) {
+        if (cancelled || touched.current) return;
+        await animate(pos, to, { duration: d, ease: 'easeInOut' });
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [inView]);
+
+  const setFrom = (e) => {
+    const r = ref.current.getBoundingClientRect();
+    pos.set(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100)));
+  };
+  const down = (e) => {
+    touched.current = true;
+    pos.stop();
+    setDragging(true);
+    ref.current.setPointerCapture(e.pointerId);
+    setFrom(e);
+  };
+  const move = (e) => { if (dragging) setFrom(e); };
+  const up = () => setDragging(false);
+  const key = (e) => {
+    if (e.key === 'ArrowLeft') { touched.current = true; pos.set(Math.max(0, pos.get() - 5)); }
+    if (e.key === 'ArrowRight') { touched.current = true; pos.set(Math.min(100, pos.get() + 5)); }
+  };
+
+  return (
+    <div
+      ref={ref}
+      onPointerDown={down}
+      onPointerMove={move}
+      onPointerUp={up}
+      onPointerCancel={up}
+      onKeyDown={key}
+      tabIndex={0}
+      role="slider"
+      aria-label="Comparar antes e depois"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      className="relative aspect-square w-full cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-[28px] bg-sand shadow-soft outline-none focus-visible:ring-4 focus-visible:ring-clay/40"
+    >
+      <Crop crop={CROP_DEPOIS} alt="Depois: abdômen após a liberação miofascial" />
+      <motion.div style={{ clipPath: clip }} className="absolute inset-0">
+        <Crop crop={CROP_ANTES} alt="Antes: abdômen antes da liberação miofascial" />
+      </motion.div>
+
+      <motion.span style={{ opacity: antesOp }} className="absolute left-4 top-4 rounded-full bg-ink/60 px-3.5 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-paper backdrop-blur">Antes</motion.span>
+      <motion.span style={{ opacity: depoisOp }} className="absolute right-4 top-4 rounded-full bg-clay/90 px-3.5 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-paper backdrop-blur">Depois</motion.span>
+
+      {/* Divisória + alça */}
+      <motion.div style={{ left }} className="pointer-events-none absolute inset-y-0 -ml-px w-[2px] bg-paper/90 shadow-[0_0_12px_rgba(0,0,0,.25)]">
+        <motion.div
+          animate={{ scale: dragging ? 1.15 : 1 }}
+          className="absolute left-1/2 top-1/2 -ml-7 -mt-7 grid h-14 w-14 place-items-center rounded-full bg-paper text-cocoa shadow-soft"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+            <path d="M9 6l-6 6 6 6M15 6l6 6-6 6" />
+          </svg>
+          {!dragging && (
+            <motion.span
+              className="absolute inset-0 rounded-full border-2 border-paper"
+              animate={{ scale: [1, 1.5], opacity: [0.8, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+            />
+          )}
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
+function Results() {
+  const points = [
+    ['Menos inchaço', 'A fáscia solta e a região desincha.'],
+    ['Contorno mais definido', 'Abdômen visivelmente mais leve e alinhado.'],
+    ['Sensação imediata', 'Leveza que você sente ao levantar da maca.'],
+  ];
+  return (
+    <section id="resultados" className="relative overflow-hidden py-24 md:py-32">
+      <motion.div
+        aria-hidden
+        animate={{ scale: [1, 1.1, 1] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -left-40 top-20 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(184,107,75,.14),transparent_65%)]"
+      />
+      <Container className="relative grid items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+        <Reveal className="mx-auto w-full max-w-[520px]">
+          <BeforeAfter />
+          <p className="mt-4 text-center text-[0.8rem] text-muted">
+            <span className="mr-1.5 inline-block">↔</span>Arraste para comparar · Resultado real de atendimento
+          </p>
+        </Reveal>
+        <div>
+          <Eyebrow>Resultados reais</Eyebrow>
+          <SplitHeading parts={['Resultado que se', { em: 'vê' }, 'e se sente.']} className="mb-5 mt-4 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-cocoa" />
+          <Reveal as="p" delay={0.1} className="max-w-[52ch] text-[1.06rem] leading-relaxed text-muted">
+            Na liberação miofascial abdominal, a Mari trabalha as tensões da fáscia que prendem a região. O corpo responde
+            com menos retenção, postura mais alinhada e um abdômen mais leve.
+          </Reveal>
+          <motion.ul
+            initial="h" whileInView="s" viewport={{ once: true, margin: '-60px' }}
+            variants={{ s: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } } }}
+            className="mt-8 grid gap-4"
+          >
+            {points.map(([t, d], i) => (
+              <motion.li
+                key={t}
+                variants={{ h: { opacity: 0, x: -24 }, s: { opacity: 1, x: 0, transition: { duration: 0.8, ease: EASE } } }}
+                className="flex items-start gap-4"
+              >
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#F3DED2] font-serif italic text-clay">{i + 1}</span>
+                <span>
+                  <strong className="block font-serif text-[1.2rem] font-normal text-cocoa">{t}</strong>
+                  <span className="text-[0.95rem] text-muted">{d}</span>
+                </span>
+              </motion.li>
+            ))}
+          </motion.ul>
+          <Reveal delay={0.3} className="mt-9">
+            <Magnetic className="w-full sm:w-auto"><Button href={wa('Olá, Mari! Vi o antes e depois no site e quero agendar a liberação miofascial abdominal.')} className="w-full sm:w-auto">Quero esse resultado <Arrow /></Button></Magnetic>
+          </Reveal>
+          <Reveal as="p" delay={0.35} className="mt-5 text-[0.78rem] text-muted/80">
+            Os resultados variam de pessoa para pessoa.
+          </Reveal>
+        </div>
       </Container>
     </section>
   );
@@ -1005,13 +1190,22 @@ function Steps() {
 
 /* ------------------------------------------------------------------ */
 /* Feedbacks — carrossel com arrastar                                  */
-/* IMPORTANTE: textos-modelo. Substitua pelos feedbacks reais das      */
-/* clientes (destaque "Feedbacks" do Instagram), com autorização.      */
+/* Mensagens reais recebidas pela Mari no WhatsApp. Os nomes foram     */
+/* omitidos; se a cliente autorizar, preencha "name" com o nome dela.  */
 /* ------------------------------------------------------------------ */
 const FEEDBACKS = [
-  { text: '[Feedback real da cliente 1 — ex.: como estava antes e como se sentiu depois da sessão.]', name: 'Nome da cliente', tag: 'Liberação Miofascial' },
-  { text: '[Feedback real da cliente 2 — copie do destaque “Feedbacks” do Instagram.]', name: 'Nome da cliente', tag: 'Ventosaterapia' },
-  { text: '[Feedback real da cliente 3 — de preferência citando um resultado concreto.]', name: 'Nome da cliente', tag: 'Sessão integrada' },
+  {
+    text: 'Mari, estou simplesmente renovada depois da liberação miofascial de ontem! Minhas pernas e glúteos agradeceram demais. O seu atendimento é sensacional, nota 1000!',
+    name: 'Cliente', tag: 'Liberação miofascial · pernas e glúteos',
+  },
+  {
+    text: 'Amei a massagem, realmente suas mãos fazem milagres! Me sinto muito mais solta e com a sensação de alívio, de ter tirado um peso das costas. Já ansiosa pelas próximas. Super recomendo!',
+    name: 'Cliente', tag: 'Alívio nas costas',
+  },
+  {
+    text: 'Hoje fiz o treino de dorsais, em que eu me sentia muito travado, e foi muito bom: senti minhas escápulas soltas e isso fez o treino render muito. Com certeza a liberação fez muito efeito. Vou retornar com certeza!',
+    name: 'Cliente', tag: 'Recuperação no treino',
+  },
 ];
 
 function Feedbacks() {
@@ -1039,7 +1233,7 @@ function Feedbacks() {
 
         <div className="relative mx-auto max-w-[820px]">
           <span className="pointer-events-none absolute -top-10 left-0 font-serif text-[9rem] leading-none text-peach/20 sm:-left-6">“</span>
-          <div className="relative min-h-[260px] sm:min-h-[220px]">
+          <div className="relative min-h-[320px] sm:min-h-[250px]">
             <AnimatePresence mode="wait" custom={dir}>
               <motion.figure
                 key={i}
@@ -1057,10 +1251,12 @@ function Feedbacks() {
                 transition={{ duration: 0.7, ease: EASE }}
                 className="cursor-grab text-center active:cursor-grabbing"
               >
-                <div className="mb-6 tracking-[4px] text-peach">★★★★★</div>
-                <blockquote className="font-serif text-[clamp(1.3rem,2.6vw,1.9rem)] font-light leading-snug text-paper">{f.text}</blockquote>
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[.06] px-3.5 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-peach">
+                  <WaIcon className="h-3.5 w-3.5" /> Mensagem real · WhatsApp
+                </div>
+                <blockquote className="font-serif text-[clamp(1.2rem,2.3vw,1.7rem)] font-light leading-snug text-paper">“{f.text}”</blockquote>
                 <figcaption className="mt-8 flex items-center justify-center gap-3 text-[0.92rem]">
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-peach font-bold text-cocoa">{f.name[0]}</span>
+                  <span className="grid h-11 w-11 place-items-center rounded-full bg-peach text-cocoa"><Heart className="h-5 w-5" /></span>
                   <span className="text-left">{f.name}<small className="block opacity-70">{f.tag}</small></span>
                 </figcaption>
               </motion.figure>
@@ -1168,7 +1364,7 @@ function FinalCta() {
             {[0, 1, 2, 3].map((k) => (
               <motion.span
                 key={k}
-                className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/25"
+                className="absolute left-1/2 top-1/2 -ml-[150px] -mt-[150px] h-[300px] w-[300px] rounded-full border border-white/25"
                 animate={{ scale: [0.4, 2.6], opacity: [0.7, 0] }}
                 transition={{ duration: 6, repeat: Infinity, delay: k * 1.5, ease: 'easeOut' }}
               />
@@ -1266,7 +1462,7 @@ function App() {
   useSmoothScroll(!reduce);
   useEffect(() => {
     document.getElementById('boot')?.remove();
-    const t = setTimeout(() => setIntro(false), reduce ? 0 : 1500);
+    const t = setTimeout(() => setIntro(false), reduce ? 0 : 1900);
     return () => clearTimeout(t);
   }, []);
   const ready = !intro;
@@ -1281,6 +1477,7 @@ function App() {
         <Marquee />
         <About />
         <Services />
+        <Results />
         <Benefits />
         <Who />
         <Steps />
