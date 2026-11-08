@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mari Mafra | Liberação Miofascial & Ventosaterapia</title>
+<meta name="description" content="Liberação miofascial e ventosaterapia com Mari Mafra, técnica de enfermagem. Alívio de dores, tensões e mais qualidade de vida. Agende pelo WhatsApp.">
+<meta property="og:title" content="Mari Mafra | Liberação Miofascial & Ventosaterapia">
+<meta property="og:description" content="Cuidado, bem-estar e qualidade de vida. Agende sua sessão.">
+<meta name="theme-color" content="#F8F2EA">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Tailwind (Play CDN) -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: '#F8F2EA',
+          sand: '#EFE3D3',
+          sand2: '#E4D2BC',
+          clay: '#B86B4B',      // terracota: calor, circulação (ventosa)
+          claydeep: '#8F4C33',
+          cocoa: '#5A3A2A',     // marrom 🤎: acolhimento, confiança
+          ink: '#2D211A',
+          sage: '#8E9C80',      // verde sálvia 🌿: equilíbrio, alívio
+          sagedeep: '#4E5C46',
+          sagesoft: '#DCE1D3',
+          paper: '#FFFCF8',
+          muted: '#7A6556',
+          peach: '#E7B59A',
+        },
+        fontFamily: {
+          serif: ['Fraunces', 'Georgia', 'serif'],
+          sans: ['Manrope', 'system-ui', 'sans-serif'],
+        },
+        boxShadow: {
+          soft: '0 20px 50px -24px rgba(90,58,42,.35)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+  body { background: #F8F2EA; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  ::selection { background: #B86B4B; color: #FFFCF8; }
+  details summary::-webkit-details-marker { display: none; }
+  /* Tela de espera enquanto o React compila */
+  #boot { position: fixed; inset: 0; background: #5A3A2A; z-index: 200; }
+</style>
+
+<!-- React + Framer Motion + Lenis (scroll suave) -->
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/framer-motion@11.11.17/dist/framer-motion.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js"></script>
+</head>
+<body class="font-sans text-ink">
+<div id="boot"></div>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef } = React;
+const {
+  motion, AnimatePresence, MotionConfig, useScroll, useTransform, useSpring,
+  useMotionValue, useMotionValueEvent, useVelocity, useAnimationFrame,
+  useInView, useReducedMotion, animate,
+} = window.Motion;
+
+/* ------------------------------------------------------------------ */
+/* Configuração                                                        */
+/* ------------------------------------------------------------------ */
+const WHATSAPP = '5547997205699';
+const INSTAGRAM = 'https://www.instagram.com/marinasilssamafra/';
+const wa = (msg = 'Olá, Mari! Vim pelo site e gostaria de agendar uma sessão.') =>
+  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
+// Se true, quem ativou "reduzir movimento" no sistema verá a página sem animações.
+// Deixe false para que as animações apareçam sempre.
+const RESPECT_REDUCED_MOTION = false;
+const useReduce = () => { const r = useReducedMotion(); return RESPECT_REDUCED_MOTION && !!r; };
+
+const EASE = [0.22, 1, 0.36, 1];          // desaceleração suave e natural
+const EASE_INOUT = [0.76, 0, 0.24, 1];
+
+/* ------------------------------------------------------------------ */
+/* Ícones                                                              */
+/* ------------------------------------------------------------------ */
+const WaIcon = ({ className = 'w-5 h-5' }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.6-.4zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>
+);
+const Arrow = ({ className = 'w-4 h-4' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={className}><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+);
+const Heart = ({ className = 'w-5 h-5' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className={className}><path d="M12 21c-4-3-8-6.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 4.5-4 8-8 11z"/></svg>
+);
+const Sun = ({ className = 'w-5 h-5' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className={className}><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.5"/></svg>
+);
+
+/* ------------------------------------------------------------------ */
+/* Primitivas de movimento                                             */
+/* ------------------------------------------------------------------ */
+
+// Surge suavemente ao entrar na tela (fade + subida + desfoque)
+function Reveal({ children, delay = 0, y = 36, className = '', as = 'div' }) {
+  const M = motion[as];
+  return (
+    <M
+      className={className}
+      initial={{ opacity: 0, y, filter: 'blur(8px)' }}
+      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 1, ease: EASE, delay }}
+    >
+      {children}
+    </M>
+  );
+}
+
+// Título revelado palavra por palavra. parts: ['texto', {em: 'itálico'}]
+function SplitHeading({ parts, as = 'h2', className = '', emClass = 'text-clay', trigger, delay = 0 }) {
+  const words = [];
+  parts.forEach((p) => {
+    const isEm = typeof p === 'object';
+    (isEm ? p.em : p).split(' ').filter(Boolean).forEach((w) => words.push({ w, em: isEm }));
+  });
+  const M = motion[as];
+  const container = { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: delay } } };
+  const word = {
+    hidden: { y: '110%', rotate: 4 },
+    show: { y: '0%', rotate: 0, transition: { duration: 1.1, ease: EASE } },
+  };
+  const control = trigger === undefined
+    ? { initial: 'hidden', whileInView: 'show', viewport: { once: true, margin: '-60px' } }
+    : { initial: 'hidden', animate: trigger ? 'show' : 'hidden' };
+  return (
+    <M className={className} variants={container} {...control}>
+      {words.map((x, i) => (
+        <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.14em] -mb-[0.14em]">
+          <motion.span variants={word} className={`inline-block origin-bottom-left ${x.em ? `italic ${emClass}` : ''}`}>
+            {x.w}
+          </motion.span>
+          {i < words.length - 1 && ' '}
+        </span>
+      ))}
+    </M>
+  );
+}
+
+// Botão "magnético": acompanha levemente o cursor
+function Magnetic({ children, strength = 0.3, className = '' }) {
+  const ref = useRef(null);
+  const x = useSpring(0, { stiffness: 180, damping: 14, mass: 0.4 });
+  const y = useSpring(0, { stiffness: 180, damping: 14, mass: 0.4 });
+  const move = (e) => {
+    const r = ref.current.getBoundingClientRect();
+    x.set((e.clientX - (r.left + r.width / 2)) * strength);
+    y.set((e.clientY - (r.top + r.height / 2)) * strength);
+  };
+  const leave = () => { x.set(0); y.set(0); };
+  return (
+    <motion.div ref={ref} onMouseMove={move} onMouseLeave={leave} style={{ x, y }} className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+// Botão com preenchimento que "sobe" no hover
+function Button({ href, children, variant = 'primary', className = '', target = '_blank', ...rest }) {
+  const styles = {
+    primary: 'bg-clay text-paper shadow-[0_14px_30px_-12px_rgba(184,107,75,.7)]',
+    ghost: 'bg-transparent text-cocoa ring-1 ring-inset ring-cocoa/25',
+    light: 'bg-paper text-claydeep',
+  }[variant];
+  const fill = { primary: 'bg-claydeep', ghost: 'bg-cocoa', light: 'bg-sand' }[variant];
+  const hoverText = variant === 'ghost' ? 'group-hover:text-paper' : '';
+  return (
+    <motion.a
+      href={href}
+      target={href?.startsWith('#') ? undefined : target}
+      rel="noopener"
+      whileTap={{ scale: 0.96 }}
+      className={`group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full px-7 py-4 text-[0.97rem] font-semibold ${styles} ${className}`}
+      {...rest}
+    >
+      <span className={`absolute inset-0 translate-y-full rounded-full ${fill} transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:translate-y-0`} />
+      <span className={`relative z-10 flex items-center gap-2.5 transition-colors duration-500 ${hoverText}`}>{children}</span>
+    </motion.a>
+  );
+}
+
+// Contador animado
+function Counter({ to, decimals = 0, prefix = '', suffix = '' }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  useEffect(() => {
+    if (!inView) return;
+    const c = animate(0, to, {
+      duration: 2.2, ease: EASE,
+      onUpdate: (v) => { if (ref.current) ref.current.textContent = prefix + v.toFixed(decimals).replace('.', ',') + suffix; },
+    });
+    return () => c.stop();
+  }, [inView]);
+  return <span ref={ref}>{prefix}0{suffix}</span>;
+}
+
+const Eyebrow = ({ children, light = false, center = false }) => (
+  <Reveal className={`flex items-center gap-3 text-[0.74rem] font-bold uppercase tracking-[0.2em] ${light ? 'text-[#C9D2BE]' : 'text-sagedeep'} ${center ? 'justify-center' : ''}`}>
+    <span className="h-px w-7 bg-current" />{children}
+  </Reveal>
+);
+
+const Container = ({ children, className = '' }) => (
+  <div className={`mx-auto w-full max-w-[1180px] px-4 sm:px-6 ${className}`}>{children}</div>
+);
+
+/* ------------------------------------------------------------------ */
+/* Infra: scroll suave, barra de progresso, brilho do cursor, intro   */
+/* ------------------------------------------------------------------ */
+function useSmoothScroll(enabled) {
+  useEffect(() => {
+    if (!enabled || !window.Lenis) return;
+    const lenis = new window.Lenis({ duration: 1.25, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    window.__lenis = lenis;
+    let id;
+    const raf = (t) => { lenis.raf(t); id = requestAnimationFrame(raf); };
+    id = requestAnimationFrame(raf);
+    return () => { cancelAnimationFrame(id); lenis.destroy(); window.__lenis = null; };
+  }, [enabled]);
+
+  // Links internos (#secao) usam o scroll suave
+  useEffect(() => {
+    const onClick = (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const id = a.getAttribute('href');
+      const el = id === '#top' ? 0 : document.querySelector(id);
+      if (el === null) return;
+      e.preventDefault();
+      if (window.__lenis) window.__lenis.scrollTo(el, { offset: -72, duration: 1.6 });
+      else if (el === 0) window.scrollTo({ top: 0, behavior: 'smooth' });
+      else el.scrollIntoView({ behavior: 'smooth' });
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
+}
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  return <motion.div style={{ scaleX }} className="fixed inset-x-0 top-0 z-[70] h-[3px] origin-left bg-gradient-to-r from-sage via-clay to-claydeep" />;
+}
+
+function CursorGlow() {
+  const [fine, setFine] = useState(false);
+  const x = useSpring(-500, { stiffness: 60, damping: 20 });
+  const y = useSpring(-500, { stiffness: 60, damping: 20 });
+  useEffect(() => {
+    const mq = window.matchMedia('(pointer: fine)');
+    setFine(mq.matches);
+    const move = (e) => { x.set(e.clientX); y.set(e.clientY); };
+    window.addEventListener('mousemove', move);
+    return () => window.removeEventListener('mousemove', move);
+  }, []);
+  if (!fine) return null;
+  return (
+    <motion.div
+      aria-hidden
+      style={{ x, y }}
+      className="pointer-events-none fixed left-0 top-0 z-[65] -ml-[260px] -mt-[260px] h-[520px] w-[520px] rounded-full mix-blend-multiply"
+    >
+      <div className="h-full w-full rounded-full bg-[radial-gradient(circle,rgba(184,107,75,.13),transparent_62%)]" />
+    </motion.div>
+  );
+}
+
+function Intro({ show }) {
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          key="intro"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cocoa text-sand"
+          exit={{ y: '-100%', borderBottomLeftRadius: '50% 18%', borderBottomRightRadius: '50% 18%' }}
+          transition={{ duration: 1, ease: EASE_INOUT }}
+        >
+          <motion.div
+            initial={{ scale: 0.4, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.9, ease: EASE }}
+            className="relative grid h-20 w-20 place-items-center rounded-full bg-[radial-gradient(circle_at_35%_30%,#D99A78,#B86B4B_55%,#8F4C33)] font-serif text-4xl italic text-paper"
+          >
+            M
+            {[0, 1].map((i) => (
+              <motion.span
+                key={i}
+                className="absolute inset-0 rounded-full border border-peach/50"
+                animate={{ scale: [1, 2.2], opacity: [0.6, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.8, ease: 'easeOut' }}
+              />
+            ))}
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.8, ease: EASE }}
+            className="mt-6 font-serif text-2xl"
+          >
+            Mari Mafra
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.7 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="mt-1 text-[0.7rem] uppercase tracking-[0.25em]"
+          >
+            Cuidado · bem-estar · qualidade de vida
+          </motion.p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Header                                                              */
+/* ------------------------------------------------------------------ */
+const NAV = [['#sobre', 'Sobre'], ['#terapias', 'Terapias'], ['#beneficios', 'Benefícios'], ['#feedbacks', 'Feedbacks'], ['#duvidas', 'Dúvidas']];
+
+const Logo = ({ light = false, sub = 'Terapias corporais' }) => (
+  <a href="#top" className="flex items-center gap-3" aria-label="Mari Mafra - início">
+    <motion.span
+      whileHover={{ rotate: -12, scale: 1.06 }}
+      className="grid h-[42px] w-[42px] place-items-center rounded-full bg-[radial-gradient(circle_at_35%_30%,#D99A78,#B86B4B_55%,#8F4C33)] font-serif text-xl italic text-paper shadow-[inset_0_-4px_10px_rgba(0,0,0,.15)]"
+    >M</motion.span>
+    <span className="leading-tight">
+      <strong className={`block font-serif text-xl font-medium ${light ? 'text-paper' : 'text-cocoa'}`}>Mari Mafra</strong>
+      <span className={`text-[0.66rem] uppercase tracking-[0.16em] ${light ? 'text-sage' : 'text-sagedeep'}`}>{sub}</span>
+    </span>
+  </a>
+);
+
+function Header({ ready }) {
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useMotionValueEvent(scrollY, 'change', (v) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setHidden(v > prev && v > 240);
+    setScrolled(v > 30);
+  });
+
+  useEffect(() => {
+    if (window.__lenis) open ? window.__lenis.stop() : window.__lenis.start();
+  }, [open]);
+
+  return (
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: ready ? (hidden && !open ? '-110%' : 0) : -100, opacity: ready ? 1 : 0 }}
+      transition={{ duration: 0.7, ease: EASE }}
+      className={`fixed inset-x-0 top-0 z-50 transition-[background,box-shadow,padding] duration-500 ${scrolled || open ? 'bg-cream/85 py-3 shadow-[0_1px_0_rgba(90,58,42,.08)] backdrop-blur-xl' : 'py-5'}`}
+    >
+      <Container className="flex items-center justify-between gap-5">
+        <Logo />
+        <nav className="hidden items-center gap-8 text-[0.93rem] font-medium text-cocoa md:flex">
+          {NAV.map(([href, label]) => (
+            <a key={href} href={href} className="group relative py-1">
+              {label}
+              <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-full origin-right scale-x-0 bg-clay transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:origin-left group-hover:scale-x-100" />
+            </a>
+          ))}
+        </nav>
+        <div className="hidden md:block">
+          <Magnetic><Button href={wa()} className="!px-5 !py-3 text-sm">Agendar sessão</Button></Magnetic>
+        </div>
+        <button onClick={() => setOpen(!open)} className="relative grid h-11 w-11 place-items-center text-cocoa md:hidden" aria-label="Menu">
+          <motion.span animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} className="absolute h-[1.8px] w-6 rounded bg-current" />
+          <motion.span animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} className="absolute h-[1.8px] w-6 rounded bg-current" />
+        </button>
+      </Container>
+
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="overflow-hidden md:hidden"
+          >
+            <motion.ul
+              initial="h" animate="s" exit="h"
+              variants={{ s: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } }, h: {} }}
+              className="flex flex-col gap-1 px-5 pb-6 pt-4"
+            >
+              {NAV.map(([href, label]) => (
+                <motion.li key={href} variants={{ h: { opacity: 0, x: -20 }, s: { opacity: 1, x: 0, transition: { ease: EASE, duration: 0.6 } } }}>
+                  <a href={href} onClick={() => setOpen(false)} className="block border-b border-cocoa/10 py-3 font-serif text-2xl text-cocoa">{label}</a>
+                </motion.li>
+              ))}
+              <motion.li variants={{ h: { opacity: 0, y: 10 }, s: { opacity: 1, y: 0 } }} className="pt-4">
+                <Button href={wa()} className="w-full"><WaIcon /> Agendar pelo WhatsApp</Button>
+              </motion.li>
+            </motion.ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </motion.header>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero                                                                */
+/* ------------------------------------------------------------------ */
+function CupsArt() {
+  // Ventosas estilizadas que "respiram" + linhas de fáscia desenhadas
+  const cups = [
+    { cx: 70, cy: 80, rx: 26, r: 16, d: 0 },
+    { cx: 135, cy: 118, rx: 22, r: 13, d: 0.8 },
+    { cx: 82, cy: 160, rx: 24, r: 15, d: 1.6 },
+  ];
+  return (
+    <svg viewBox="0 0 200 240" fill="none" className="w-[78%]">
+      {cups.map((c, i) => (
+        <motion.g
+          key={i}
+          style={{ transformBox: 'fill-box', originX: 0.5, originY: 1 }}
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0, scaleY: [1, 0.94, 1] }}
+          transition={{
+            opacity: { delay: 1.3 + i * 0.2, duration: 0.8 },
+            y: { delay: 1.3 + i * 0.2, duration: 1, ease: EASE },
+            scaleY: { delay: 2.4 + c.d, duration: 3.2, repeat: Infinity, ease: 'easeInOut' },
+          }}
+        >
+          <motion.circle
+            cx={c.cx} cy={c.cy} r={c.r} fill="rgba(255,255,255,.2)"
+            style={{ transformBox: 'fill-box', originX: 0.5, originY: 0.5 }}
+            animate={{ scale: [1, 1.22, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ delay: 2.4 + c.d, duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <g stroke="rgba(255,255,255,.8)" strokeWidth="1.6">
+            <ellipse cx={c.cx} cy={c.cy} rx={c.rx} ry={c.rx * 0.35} />
+            <path d={`M${c.cx - c.rx} ${c.cy}v-${c.rx * 0.85}a${c.rx} ${c.rx * 0.46} 0 0 1 ${c.rx * 2} 0v${c.rx * 0.85}`} />
+          </g>
+        </motion.g>
+      ))}
+      {[0.5, 0.32, 0.18].map((o, i) => (
+        <motion.path
+          key={i}
+          d={`M10 ${210 + i * 12}c40-20 70 10 110-6s60-30 70-20`}
+          stroke={`rgba(255,255,255,${o})`} strokeWidth="1.4" strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ delay: 1.6 + i * 0.2, duration: 2.2, ease: EASE }}
+        />
+      ))}
+    </svg>
+  );
+}
+
+function FloatCard({ className, icon, iconClass, title, sub, delay, floatDelay = 0, ready }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      animate={ready ? { opacity: 1, scale: 1, y: 0 } : {}}
+      transition={{ delay, type: 'spring', stiffness: 120, damping: 14 }}
+      className={`absolute z-20 ${className}`}
+    >
+      <motion.div
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: floatDelay }}
+        className="flex items-center gap-3 rounded-[20px] bg-paper/95 px-4 py-3 shadow-soft backdrop-blur"
+      >
+        <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${iconClass}`}>{icon}</span>
+        <span className="leading-tight">
+          <strong className="block text-[0.9rem] text-cocoa">{title}</strong>
+          <span className="text-[0.76rem] text-muted">{sub}</span>
+        </span>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function Hero({ ready }) {
+  const ref = useRef(null);
+  const reduce = useReduce();
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rx = useSpring(useTransform(my, [-0.5, 0.5], [8, -8]), { stiffness: 80, damping: 18 });
+  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-10, 10]), { stiffness: 80, damping: 18 });
+  const blobX = useSpring(useTransform(mx, [-0.5, 0.5], [-40, 40]), { stiffness: 40, damping: 20 });
+  const blobY = useSpring(useTransform(my, [-0.5, 0.5], [-30, 30]), { stiffness: 40, damping: 20 });
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const archY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const onMove = (e) => {
+    if (reduce) return;
+    const r = ref.current.getBoundingClientRect();
+    mx.set((e.clientX - r.left) / r.width - 0.5);
+    my.set((e.clientY - r.top) / r.height - 0.5);
+  };
+
+  const item = (d) => ({
+    initial: { opacity: 0, y: 30, filter: 'blur(8px)' },
+    animate: ready ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {},
+    transition: { duration: 1, ease: EASE, delay: d },
+  });
+
+  return (
+    <section ref={ref} onMouseMove={onMove} className="relative overflow-hidden pb-20 pt-32 md:pb-28 md:pt-44">
+      {/* Manchas de cor que "respiram" */}
+      <motion.div style={{ x: blobX, y: blobY }} className="pointer-events-none absolute -right-48 -top-56 -z-0">
+        <motion.div
+          animate={{ scale: [1, 1.12, 1], rotate: [0, 20, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+          className="h-[720px] w-[720px] rounded-full bg-[radial-gradient(circle,rgba(142,156,128,.32),transparent_65%)]"
+        />
+      </motion.div>
+      <motion.div style={{ x: useTransform(blobX, (v) => -v), y: useTransform(blobY, (v) => -v) }} className="pointer-events-none absolute -bottom-64 -left-52">
+        <motion.div
+          animate={{ scale: [1.1, 1, 1.1] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+          className="h-[580px] w-[580px] rounded-full bg-[radial-gradient(circle,rgba(184,107,75,.18),transparent_65%)]"
+        />
+      </motion.div>
+
+      <Container className="relative grid items-center gap-12 lg:grid-cols-[1.1fr_.9fr] lg:gap-16">
+        <motion.div style={{ y: textY, opacity: fade }}>
+          <motion.span {...item(0.1)} className="flex items-center gap-3 text-[0.74rem] font-bold uppercase tracking-[0.2em] text-sagedeep">
+            <span className="h-px w-7 bg-current" />Liberação Miofascial & Ventosaterapia
+          </motion.span>
+          <SplitHeading
+            as="h1"
+            trigger={ready}
+            delay={0.2}
+            parts={['Seu corpo merece', { em: 'leveza' }, 'e cuidado de verdade.']}
+            className="mb-6 mt-5 font-serif text-[clamp(2.6rem,6.2vw,5rem)] font-normal leading-[1.06] tracking-tight text-cocoa"
+          />
+          <motion.p {...item(0.7)} className="max-w-[54ch] text-[1.12rem] leading-relaxed text-muted">
+            Alivie dores, solte tensões e recupere a mobilidade com terapias manuais conduzidas por uma
+            técnica de enfermagem que enxerga você por inteiro.
+          </motion.p>
+          <motion.div {...item(0.85)} className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Magnetic className="w-full sm:w-auto"><Button href={wa()} className="w-full sm:w-auto"><WaIcon /> Agendar pelo WhatsApp</Button></Magnetic>
+            <Magnetic className="w-full sm:w-auto"><Button href="#terapias" variant="ghost" className="w-full sm:w-auto">Conheça as terapias</Button></Magnetic>
+          </motion.div>
+          <motion.div {...item(1)} className="mt-12 flex flex-wrap gap-x-9 gap-y-5">
+            {[
+              [<Counter to={1.4} decimals={1} prefix="+" suffix=" mil" />, 'seguidores no Instagram'],
+              [<Counter to={2} suffix=" terapias" />, 'que se complementam'],
+              [<Counter to={100} suffix="%" />, 'atendimento individual'],
+            ].map(([n, l], i) => (
+              <div key={i}>
+                <strong className="block font-serif text-3xl font-normal leading-none text-cocoa">{n}</strong>
+                <span className="mt-1.5 block text-[0.8rem] text-muted">{l}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Arco com ventosas animadas */}
+        <motion.div style={{ y: archY }} className="relative order-first mx-auto w-[78%] max-w-[290px] sm:max-w-[360px] lg:order-none lg:w-full lg:max-w-[440px]">
+          <motion.div
+            initial={{ clipPath: 'inset(100% 0% 0% 0% round 240px 240px 32px 32px)' }}
+            animate={ready ? { clipPath: 'inset(0% 0% 0% 0% round 240px 240px 32px 32px)' } : {}}
+            transition={{ duration: 1.4, ease: EASE_INOUT, delay: 0.25 }}
+            style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000 }}
+            className="relative aspect-[4/5] overflow-hidden rounded-[240px_240px_32px_32px] bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,.35),transparent_40%),linear-gradient(160deg,#CFA88C_0%,#B86B4B_45%,#5A3A2A_100%)] shadow-soft"
+          >
+            <motion.div
+              initial={{ scale: 1.25 }}
+              animate={ready ? { scale: 1 } : {}}
+              transition={{ duration: 1.8, ease: EASE, delay: 0.25 }}
+              className="absolute inset-0 grid place-items-center"
+            >
+              <CupsArt />
+            </motion.div>
+            {/* Foto da Mari: salve como img/marina-hero.jpg */}
+            <img src="img/marina-hero.jpg" alt="Mari Mafra em atendimento" onError={(e) => e.currentTarget.remove()} className="absolute inset-0 z-10 h-full w-full object-cover" />
+          </motion.div>
+          <FloatCard ready={ready} delay={1.5} floatDelay={0} className="-left-6 bottom-16 sm:-left-10"
+            icon={<Heart />} iconClass="bg-sagesoft text-sagedeep" title="Alívio das dores" sub="desde a 1ª sessão" />
+          <FloatCard ready={ready} delay={1.7} floatDelay={3} className="-right-4 top-10 sm:-right-8 sm:top-14"
+            icon={<Sun />} iconClass="bg-[#F3DED2] text-clay" title="Circulação ativa" sub="corpo mais leve" />
+        </motion.div>
+      </Container>
+
+      {/* indicador de rolagem */}
+      <motion.div
+        initial={{ opacity: 0 }} animate={ready ? { opacity: 1 } : {}} transition={{ delay: 2 }}
+        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 lg:block"
+      >
+        <div className="flex h-11 w-7 justify-center rounded-full border border-cocoa/30 pt-2">
+          <motion.span animate={{ y: [0, 14, 0], opacity: [1, 0.2, 1] }} transition={{ duration: 2, repeat: Infinity }} className="h-2 w-1 rounded-full bg-clay" />
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Faixa que reage à velocidade do scroll                              */
+/* ------------------------------------------------------------------ */
+const wrap = (min, max, v) => { const r = max - min; return ((((v - min) % r) + r) % r) + min; };
+
+function VelocityMarquee({ items, baseVelocity = -2, className = '' }) {
+  const reduce = useReduce();
+  const baseX = useMotionValue(0);
+  const { scrollY } = useScroll();
+  const vel = useSpring(useVelocity(scrollY), { damping: 50, stiffness: 400 });
+  const factor = useTransform(vel, [0, 1000], [0, 4], { clamp: false });
+  const x = useTransform(baseX, (v) => `${wrap(-50, 0, v)}%`);
+  const dir = useRef(1);
+  useAnimationFrame((t, delta) => {
+    if (reduce) return;
+    let move = dir.current * baseVelocity * (delta / 1000);
+    if (factor.get() < 0) dir.current = -1; else if (factor.get() > 0) dir.current = 1;
+    move += dir.current * move * factor.get();
+    baseX.set(baseX.get() + move);
+  });
+  const row = items.map((t, i) => (
+    <span key={i} className="flex items-center gap-10 pr-10">
+      {t}<span className="text-sm not-italic text-clay">✦</span>
+    </span>
+  ));
+  return (
+    <div className={`overflow-hidden whitespace-nowrap ${className}`}>
+      <motion.div style={{ x }} className="inline-flex">
+        <div className="flex">{row}</div><div className="flex">{row}</div>
+      </motion.div>
+    </div>
+  );
+}
+
+function Marquee() {
+  const a = ['Alívio de dores', 'Menos tensão muscular', 'Mais mobilidade', 'Melhora da circulação', 'Recuperação pós-treino', 'Bem-estar e qualidade de vida'];
+  const b = ['Liberação Miofascial', 'Ventosaterapia', 'Autocuidado', 'Relaxamento profundo', 'Postura', 'Leveza'];
+  return (
+    <div className="relative z-10 -rotate-[1.2deg] scale-[1.02] bg-cocoa py-5 text-sand shadow-soft">
+      <VelocityMarquee items={a} baseVelocity={-2} className="font-serif text-[1.35rem] italic" />
+      <VelocityMarquee items={b} baseVelocity={2} className="mt-2 text-[0.78rem] font-semibold uppercase tracking-[0.25em] text-sand/60" />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Sobre                                                               */
+/* ------------------------------------------------------------------ */
+function RotatingBadge() {
+  return (
+    <div className="absolute -bottom-8 -right-3 z-20 grid h-32 w-32 place-items-center rounded-full bg-clay text-paper shadow-soft sm:-right-8 sm:h-40 sm:w-40">
+      <motion.svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" animate={{ rotate: 360 }} transition={{ duration: 22, repeat: Infinity, ease: 'linear' }}>
+        <defs><path id="circ" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0" /></defs>
+        <text fill="currentColor" style={{ fontSize: '9.2px', letterSpacing: '2.4px', textTransform: 'uppercase', fontFamily: 'Manrope', fontWeight: 600 }}>
+          <textPath href="#circ">cuidado com base em saúde • técnica de enfermagem •</textPath>
+        </text>
+      </motion.svg>
+      <motion.div animate={{ scale: [1, 1.15, 1] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}><Heart className="h-7 w-7" /></motion.div>
+    </div>
+  );
+}
+
+function About() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
+  const creds = [
+    ['Técnica de Enfermagem', <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z M9 12l2 2 4-4" />],
+    ['Atendimento individual e personalizado', <g><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></g>],
+    ['Biossegurança e higiene rigorosas', <path d="M5 12h14M12 5v14" />],
+    ['Ambiente acolhedor e tranquilo', <path d="M12 21c-4-3-8-6.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 4.5-4 8-8 11z" />],
+  ];
+  return (
+    <section id="sobre" ref={ref} className="py-24 md:py-32">
+      <Container className="grid items-center gap-16 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
+        <div className="relative mx-auto w-full max-w-[440px]">
+          <motion.div
+            initial={{ clipPath: 'inset(100% 0% 0% 0% round 28px)' }}
+            whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 28px)' }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 1.4, ease: EASE_INOUT }}
+            className="relative aspect-[1/1.1] overflow-hidden rounded-[28px] shadow-soft"
+          >
+            <motion.div style={{ y: imgY }} className="absolute -inset-[10%] grid place-items-center bg-[linear-gradient(200deg,#DCE1D3,#8E9C80_70%,#4E5C46)]">
+              <svg viewBox="0 0 120 120" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth="1.4" strokeLinecap="round" className="w-[48%]">
+                <motion.path d="M60 104C60 70 60 40 60 16" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.6, delay: 0.6, ease: EASE }} />
+                {['M60 80c-14-2-26-12-28-28 14 2 26 12 28 28z', 'M60 60c14-2 26-12 28-28-14 2-26 12-28 28z', 'M60 40c-10-2-18-9-20-20 10 2 18 9 20 20z'].map((d, i) => (
+                  <motion.path key={i} d={d} initial={{ pathLength: 0, opacity: 0 }} whileInView={{ pathLength: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1.4, delay: 1 + i * 0.25, ease: EASE }} />
+                ))}
+              </svg>
+              {/* Foto da Mari: salve como img/marina-sobre.jpg */}
+              <img src="img/marina-sobre.jpg" alt="Retrato de Mari Mafra" onError={(e) => e.currentTarget.remove()} className="absolute inset-0 h-full w-full object-cover" />
+            </motion.div>
+          </motion.div>
+          <RotatingBadge />
+        </div>
+
+        <div>
+          <Eyebrow>Prazer, eu sou a Mari</Eyebrow>
+          <SplitHeading parts={['Terapia feita com', { em: 'técnica,' }, 'escuta e carinho.']} className="mb-6 mt-5 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-cocoa" />
+          <Reveal as="p" delay={0.1} className="max-w-[56ch] text-[1.06rem] leading-relaxed text-muted">
+            Sou técnica de enfermagem e encontrei nas terapias corporais uma forma de unir o conhecimento em saúde ao cuidado mais humano e próximo.
+          </Reveal>
+          <Reveal as="p" delay={0.2} className="mt-4 max-w-[56ch] text-[1.06rem] leading-relaxed text-muted">
+            Cada atendimento começa entendendo a sua rotina, suas dores e seus objetivos. A partir disso, combino liberação miofascial e ventosaterapia para devolver ao seu corpo leveza, movimento e qualidade de vida.
+          </Reveal>
+          <motion.div
+            initial="h" whileInView="s" viewport={{ once: true, margin: '-60px' }}
+            variants={{ s: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } } }}
+            className="mt-9 grid gap-3.5 sm:grid-cols-2"
+          >
+            {creds.map(([label, icon]) => (
+              <motion.div
+                key={label}
+                variants={{ h: { opacity: 0, y: 24, scale: 0.96 }, s: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: EASE } } }}
+                whileHover={{ y: -4 }}
+                className="flex items-start gap-3 rounded-[18px] border border-cocoa/[.07] bg-paper px-4 py-4 text-[0.92rem] transition-shadow hover:shadow-soft"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 h-[22px] w-[22px] shrink-0 text-clay">{icon}</svg>
+                <span>{label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Terapias                                                            */
+/* ------------------------------------------------------------------ */
+function ServiceCard({ tone, icon, title, text, items, msg, delay }) {
+  const ref = useRef(null);
+  const rx = useSpring(0, { stiffness: 150, damping: 18 });
+  const ry = useSpring(0, { stiffness: 150, damping: 18 });
+  const onMove = (e) => {
+    const r = ref.current.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    ref.current.style.setProperty('--mx', `${px * 100}%`);
+    ref.current.style.setProperty('--my', `${py * 100}%`);
+    rx.set((0.5 - py) * 6); ry.set((px - 0.5) * 6);
+  };
+  const leave = () => { rx.set(0); ry.set(0); };
+  const t = tone === 'sage'
+    ? { bg: 'bg-[linear-gradient(160deg,#EEF0E8,#DCE1D3)]', ic: 'text-sagedeep', dot: 'bg-sage', ring: 'border-sage/25' }
+    : { bg: 'bg-[linear-gradient(160deg,#F8E9DF,#F0D6C6)]', ic: 'text-clay', dot: 'bg-clay', ring: 'border-clay/15' };
+  return (
+    <Reveal delay={delay}>
+      <motion.article
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseLeave={leave}
+        style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200 }}
+        className={`group relative h-full overflow-hidden rounded-[28px] p-8 transition-shadow duration-500 hover:shadow-soft sm:p-11 ${t.bg}`}
+      >
+        {/* luz que segue o cursor */}
+        <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 [background:radial-gradient(420px_circle_at_var(--mx)_var(--my),rgba(255,255,255,.6),transparent_45%)]" />
+        <motion.div whileHover={{ rotate: -8, scale: 1.08 }} className={`relative mb-7 grid h-[68px] w-[68px] place-items-center rounded-[20px] bg-paper ${t.ic}`}>
+          {icon}
+        </motion.div>
+        <h3 className="relative mb-3.5 font-serif text-[2rem] font-normal leading-tight text-cocoa">{title}</h3>
+        <p className="relative text-muted">{text}</p>
+        <ul className="relative my-7 grid gap-2.5">
+          {items.map((it, i) => (
+            <motion.li
+              key={it}
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 + i * 0.08, duration: 0.7, ease: EASE }}
+              className="flex items-center gap-2.5 text-[0.95rem] font-medium text-cocoa"
+            >
+              <span className={`h-2 w-2 shrink-0 rounded-full ${t.dot}`} />{it}
+            </motion.li>
+          ))}
+        </ul>
+        <a href={wa(msg)} target="_blank" rel="noopener" className="relative inline-flex items-center gap-2 text-[0.92rem] font-bold text-cocoa">
+          Quero agendar
+          <span className="transition-transform duration-500 group-hover:translate-x-1.5"><Arrow /></span>
+        </a>
+        <motion.span
+          animate={{ scale: [1, 1.08, 1] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+          className={`pointer-events-none absolute -bottom-12 -right-12 h-[200px] w-[200px] rounded-full border-[30px] ${t.ring}`}
+        />
+      </motion.article>
+    </Reveal>
+  );
+}
+
+function Services() {
+  return (
+    <section id="terapias" className="mx-2 rounded-[32px] bg-paper py-24 sm:mx-3.5 sm:rounded-[48px] md:py-32">
+      <Container>
+        <div className="mx-auto mb-16 max-w-[680px] text-center">
+          <Eyebrow center>Terapias</Eyebrow>
+          <SplitHeading parts={['Duas técnicas,', { em: 'um só' }, 'objetivo: você sem dor.']} className="mb-5 mt-4 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-cocoa" />
+          <Reveal as="p" delay={0.2} className="mx-auto max-w-[56ch] text-[1.06rem] text-muted">
+            Elas podem ser feitas separadas ou combinadas na mesma sessão, de acordo com a necessidade do seu corpo.
+          </Reveal>
+        </div>
+        <div className="grid gap-7 md:grid-cols-2">
+          <ServiceCard
+            tone="sage" delay={0}
+            icon={<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-9 w-9"><path d="M6 12c6-4 10 4 16 0s8-4 12 0M6 20c6-4 10 4 16 0s8-4 12 0M6 28c6-4 10 4 16 0s8-4 12 0" /></svg>}
+            title="Liberação Miofascial"
+            text="Técnica manual que atua na fáscia, o tecido que envolve os músculos. Com pressões e deslizamentos precisos, desfaz pontos de tensão (os famosos “nós”) e devolve elasticidade aos tecidos."
+            items={['Reduz dores e contraturas musculares', 'Melhora a postura e a amplitude de movimento', 'Acelera a recuperação após treinos', 'Diminui a rigidez causada pelo estresse']}
+            msg="Olá, Mari! Quero agendar uma sessão de Liberação Miofascial."
+          />
+          <ServiceCard
+            tone="clay" delay={0.12}
+            icon={<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-9 w-9"><ellipse cx="20" cy="30" rx="12" ry="4" /><path d="M8 30V18a12 7 0 0 1 24 0v12" /><path d="M20 6v4" /></svg>}
+            title="Ventosaterapia"
+            text="Com ventosas que criam uma leve sucção sobre a pele, a técnica descola os tecidos, ativa a circulação sanguínea e favorece a oxigenação e a eliminação de toxinas."
+            items={['Ativa a circulação e a oxigenação', 'Alivia dores nas costas, ombros e pescoço', 'Reduz a sensação de peso e cansaço', 'Promove relaxamento profundo']}
+            msg="Olá, Mari! Quero agendar uma sessão de Ventosaterapia."
+          />
+        </div>
+        <Reveal delay={0.1}>
+          <div className="group relative mt-7 flex flex-col items-start justify-between gap-6 overflow-hidden rounded-[28px] bg-cocoa p-8 text-sand sm:flex-row sm:items-center sm:p-10">
+            <motion.div
+              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              animate={{ left: ['-35%', '135%'] }}
+              transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 2.5, ease: 'easeInOut' }}
+            />
+            <div className="relative">
+              <h3 className="mb-1.5 font-serif text-[1.6rem] font-normal text-paper">Sessão integrada</h3>
+              <p className="max-w-[60ch] opacity-80">Liberação miofascial + ventosaterapia no mesmo atendimento, para um resultado mais completo e duradouro.</p>
+            </div>
+            <Magnetic className="relative w-full sm:w-auto"><Button href={wa('Olá, Mari! Quero saber mais sobre a sessão integrada (liberação + ventosa).')} className="w-full shrink-0 !shadow-none sm:w-auto">Saber mais <Arrow /></Button></Magnetic>
+          </div>
+        </Reveal>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Benefícios                                                          */
+/* ------------------------------------------------------------------ */
+const BENEFITS = [
+  ['Menos dor', 'Alívio de dores nas costas, lombar, pescoço e ombros, causadas por tensão acumulada.'],
+  ['Mais mobilidade', 'Músculos e fáscias mais soltos significam movimentos mais livres e confortáveis.'],
+  ['Circulação ativa', 'Mais oxigenação nos tecidos e redução da sensação de pernas pesadas e inchaço.'],
+  ['Recuperação esportiva', 'Ajuda o corpo a se recuperar mais rápido entre treinos e previne lesões.'],
+  ['Sono e relaxamento', 'O corpo relaxa, a mente desacelera e as noites de sono ficam mais tranquilas.'],
+  ['Menos estresse', 'Um momento só seu para desligar da rotina e cuidar de quem cuida de tudo.'],
+];
+
+function Benefits() {
+  return (
+    <section id="beneficios" className="py-24 md:py-32">
+      <Container>
+        <div className="mx-auto mb-16 max-w-[680px] text-center">
+          <Eyebrow center>Benefícios</Eyebrow>
+          <SplitHeading parts={['O que muda no seu', { em: 'dia a dia' }]} className="mt-4 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-cocoa" />
+        </div>
+        <motion.div
+          initial="h" whileInView="s" viewport={{ once: true, margin: '-80px' }}
+          variants={{ s: { transition: { staggerChildren: 0.09 } } }}
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {BENEFITS.map(([title, text], i) => (
+            <motion.div
+              key={title}
+              variants={{ h: { opacity: 0, y: 40, rotateX: 18 }, s: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.9, ease: EASE } } }}
+              whileHover={{ y: -8 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+              style={{ transformPerspective: 900 }}
+              className="group relative overflow-hidden rounded-3xl border border-cocoa/[.06] bg-paper p-8"
+            >
+              <span className="absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-sage to-clay transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-x-100" />
+              <span className="mb-5 flex items-center gap-3 font-serif italic text-clay">
+                <span className="transition-transform duration-500 group-hover:-translate-y-0.5">0{i + 1}</span>
+                <span className="h-px w-0 bg-clay/50 transition-all duration-700 group-hover:w-10" />
+              </span>
+              <h3 className="mb-2.5 font-serif text-[1.35rem] font-normal text-cocoa">{title}</h3>
+              <p className="text-[0.95rem] leading-relaxed text-muted">{text}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Para quem é                                                         */
+/* ------------------------------------------------------------------ */
+const TAGS = [
+  ['💻', 'Passa horas sentada(o)'], ['🏃‍♀️', 'Pratica atividade física'], ['😮‍💨', 'Vive com o corpo tenso'],
+  ['🦵', 'Sente as pernas pesadas'], ['🤕', 'Tem dores nas costas'], ['😴', 'Dorme mal e acorda cansada(o)'],
+  ['🧍', 'Quer melhorar a postura'], ['🌿', 'Busca bem-estar e autocuidado'],
+];
+
+function Who() {
+  return (
+    <section className="bg-gradient-to-b from-sand to-cream py-24 md:py-32">
+      <Container className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <Eyebrow>Para quem é</Eyebrow>
+          <SplitHeading parts={['Se você se identifica com algum desses,', { em: 'é pra você.' }]} className="mb-5 mt-4 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-cocoa" />
+          <Reveal as="p" delay={0.15} className="max-w-[50ch] text-[1.06rem] text-muted">
+            Não precisa esperar a dor ficar insuportável. Cuidar do corpo com frequência é o que mantém você bem.
+          </Reveal>
+        </div>
+        <motion.div
+          initial="h" whileInView="s" viewport={{ once: true, margin: '-60px' }}
+          variants={{ s: { transition: { staggerChildren: 0.07 } } }}
+          className="flex flex-wrap gap-3"
+        >
+          {TAGS.map(([e, t], i) => (
+            <motion.div key={t} variants={{ h: { opacity: 0, scale: 0.6, y: 20 }, s: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 160, damping: 14 } } }}>
+              <motion.span
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 3 + (i % 3), repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
+                whileHover={{ scale: 1.06 }}
+                className="inline-flex cursor-default items-center gap-2.5 rounded-full border border-cocoa/[.08] bg-paper px-5 py-3.5 text-[0.94rem] font-semibold text-cocoa transition-colors duration-300 hover:bg-sagedeep hover:text-paper"
+              >
+                <span>{e}</span>{t}
+              </motion.span>
+            </motion.div>
+          ))}
+        </motion.div>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Como funciona — linha que se preenche com o scroll                  */
+/* ------------------------------------------------------------------ */
+const STEPS = [
+  ['Agende', 'Chame no WhatsApp e escolha o melhor dia e horário pra você.'],
+  ['Avaliação', 'Conversamos sobre suas dores, rotina e histórico de saúde.'],
+  ['Sessão', 'Aplicação das técnicas ideais para o seu caso, com todo cuidado.'],
+  ['Orientações', 'Dicas pós-sessão para prolongar os resultados no seu dia a dia.'],
+];
+
+function Step({ i, title, text, progress }) {
+  const start = i / STEPS.length, end = start + 0.12;
+  const fill = useTransform(progress, [start, end], [0, 1]);
+  const color = useTransform(progress, [start, end], ['#B86B4B', '#FFFCF8']);
+  return (
+    <Reveal delay={i * 0.1} className="relative flex gap-6 md:block">
+      <div className="relative z-10 grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-full border-[1.5px] border-sand2 bg-paper md:mb-6">
+        <motion.span style={{ scale: fill }} className="absolute inset-0 rounded-full bg-clay" />
+        <motion.span style={{ color }} className="relative font-serif text-[1.4rem]">{i + 1}</motion.span>
+      </div>
+      <div className="pt-3 md:pt-0">
+        <h3 className="mb-2 font-serif text-[1.3rem] font-normal text-cocoa">{title}</h3>
+        <p className="text-[0.95rem] leading-relaxed text-muted">{text}</p>
+      </div>
+    </Reveal>
+  );
+}
+
+function Steps() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end 55%'] });
+  const p = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
+  return (
+    <section className="py-24 md:py-32">
+      <Container>
+        <div className="mx-auto mb-16 max-w-[680px] text-center">
+          <Eyebrow center>Como funciona</Eyebrow>
+          <SplitHeading parts={['Do agendamento ao', { em: 'alívio' }]} className="mt-4 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-cocoa" />
+        </div>
+        <div ref={ref} className="relative grid gap-10 md:grid-cols-4 md:gap-6">
+          {/* trilho horizontal (desktop) */}
+          <div className="absolute left-8 right-8 top-8 hidden h-[2px] bg-sand2 md:block">
+            <motion.div style={{ scaleX: p }} className="h-full origin-left bg-gradient-to-r from-sage to-clay" />
+          </div>
+          {/* trilho vertical (celular) */}
+          <div className="absolute bottom-8 left-8 top-8 w-[2px] -translate-x-1/2 bg-sand2 md:hidden">
+            <motion.div style={{ scaleY: p }} className="h-full w-full origin-top bg-gradient-to-b from-sage to-clay" />
+          </div>
+          {STEPS.map(([t, d], i) => <Step key={t} i={i} title={t} text={d} progress={p} />)}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Feedbacks — carrossel com arrastar                                  */
+/* IMPORTANTE: textos-modelo. Substitua pelos feedbacks reais das      */
+/* clientes (destaque "Feedbacks" do Instagram), com autorização.      */
+/* ------------------------------------------------------------------ */
+const FEEDBACKS = [
+  { text: '[Feedback real da cliente 1 — ex.: como estava antes e como se sentiu depois da sessão.]', name: 'Nome da cliente', tag: 'Liberação Miofascial' },
+  { text: '[Feedback real da cliente 2 — copie do destaque “Feedbacks” do Instagram.]', name: 'Nome da cliente', tag: 'Ventosaterapia' },
+  { text: '[Feedback real da cliente 3 — de preferência citando um resultado concreto.]', name: 'Nome da cliente', tag: 'Sessão integrada' },
+];
+
+function Feedbacks() {
+  const [[i, dir], setI] = useState([0, 1]);
+  const [paused, setPaused] = useState(false);
+  const go = (d) => setI(([c]) => [(c + d + FEEDBACKS.length) % FEEDBACKS.length, d]);
+  useEffect(() => {
+    if (paused) return;
+    const t = setTimeout(() => go(1), 6500);
+    return () => clearTimeout(t);
+  }, [i, paused]);
+  const f = FEEDBACKS[i];
+  return (
+    <section id="feedbacks" className="relative mx-2 overflow-hidden rounded-[32px] bg-sagedeep py-24 text-sagesoft sm:mx-3.5 sm:rounded-[48px] md:py-32"
+      onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <motion.div aria-hidden animate={{ rotate: 360 }} transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        className="pointer-events-none absolute -right-40 -top-40 h-[480px] w-[480px] rounded-full border border-white/10" />
+      <motion.div aria-hidden animate={{ rotate: -360 }} transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+        className="pointer-events-none absolute -bottom-52 -left-32 h-[420px] w-[420px] rounded-full border border-dashed border-white/10" />
+      <Container className="relative">
+        <div className="mx-auto mb-12 max-w-[680px] text-center">
+          <Eyebrow light center>Feedbacks</Eyebrow>
+          <SplitHeading parts={['Quem cuidou,', { em: 'sentiu' }, 'a diferença']} emClass="text-peach" className="mt-4 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-paper" />
+        </div>
+
+        <div className="relative mx-auto max-w-[820px]">
+          <span className="pointer-events-none absolute -top-10 left-0 font-serif text-[9rem] leading-none text-peach/20 sm:-left-6">“</span>
+          <div className="relative min-h-[260px] sm:min-h-[220px]">
+            <AnimatePresence mode="wait" custom={dir}>
+              <motion.figure
+                key={i}
+                custom={dir}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.25}
+                onDragEnd={(e, info) => { if (info.offset.x < -60) go(1); else if (info.offset.x > 60) go(-1); }}
+                variants={{
+                  enter: (d) => ({ opacity: 0, x: d * 60, filter: 'blur(6px)' }),
+                  center: { opacity: 1, x: 0, filter: 'blur(0px)' },
+                  exit: (d) => ({ opacity: 0, x: d * -60, filter: 'blur(6px)' }),
+                }}
+                initial="enter" animate="center" exit="exit"
+                transition={{ duration: 0.7, ease: EASE }}
+                className="cursor-grab text-center active:cursor-grabbing"
+              >
+                <div className="mb-6 tracking-[4px] text-peach">★★★★★</div>
+                <blockquote className="font-serif text-[clamp(1.3rem,2.6vw,1.9rem)] font-light leading-snug text-paper">{f.text}</blockquote>
+                <figcaption className="mt-8 flex items-center justify-center gap-3 text-[0.92rem]">
+                  <span className="grid h-11 w-11 place-items-center rounded-full bg-peach font-bold text-cocoa">{f.name[0]}</span>
+                  <span className="text-left">{f.name}<small className="block opacity-70">{f.tag}</small></span>
+                </figcaption>
+              </motion.figure>
+            </AnimatePresence>
+          </div>
+
+          <div className="mt-10 flex items-center justify-center gap-5">
+            <button onClick={() => go(-1)} aria-label="Anterior" className="grid h-11 w-11 place-items-center rounded-full border border-white/20 transition hover:bg-white/10"><Arrow className="h-4 w-4 rotate-180" /></button>
+            <div className="flex gap-2">
+              {FEEDBACKS.map((_, k) => (
+                <button key={k} onClick={() => setI([k, k > i ? 1 : -1])} aria-label={`Feedback ${k + 1}`} className="relative h-1.5 w-10 overflow-hidden rounded-full bg-white/20">
+                  {k === i && (
+                    <motion.span
+                      key={`${i}-${paused}`}
+                      className="absolute inset-0 origin-left rounded-full bg-peach"
+                      initial={{ scaleX: 0 }} animate={{ scaleX: paused ? 1 : 1 }}
+                      transition={{ duration: paused ? 0.3 : 6.5, ease: 'linear' }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+            <button onClick={() => go(1)} aria-label="Próximo" className="grid h-11 w-11 place-items-center rounded-full border border-white/20 transition hover:bg-white/10"><Arrow className="h-4 w-4" /></button>
+          </div>
+          <div className="mt-10 text-center">
+            <a href={INSTAGRAM} target="_blank" rel="noopener" className="group inline-flex items-center gap-2 font-semibold text-peach">
+              Veja mais feedbacks no Instagram <span className="transition-transform duration-500 group-hover:translate-x-1.5"><Arrow /></span>
+            </a>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Dúvidas                                                             */
+/* ------------------------------------------------------------------ */
+const FAQ = [
+  ['A liberação miofascial dói?', 'Pode haver um leve desconforto nos pontos mais tensionados, mas a pressão é sempre ajustada ao seu limite. A sensação depois é de alívio e leveza.'],
+  ['A ventosa deixa marcas roxas?', 'Pode deixar marcas arredondadas, que indicam a ativação da circulação no local. Elas não doem e costumam sumir em alguns dias.'],
+  ['Quanto tempo dura uma sessão?', 'Em média de 50 a 60 minutos, incluindo a conversa inicial e as orientações finais.'],
+  ['Com que frequência devo fazer?', 'Depende do seu objetivo. Para tratar uma dor específica, sessões semanais costumam trazer ótimos resultados. Para manutenção, a cada 15 ou 30 dias.'],
+  ['Existe alguma contraindicação?', 'Sim, em alguns casos, como feridas ou lesões na pele, trombose, uso de anticoagulantes, febre e algumas condições na gestação. Por isso toda sessão começa com uma avaliação.'],
+];
+
+function Faq() {
+  const [open, setOpen] = useState(0);
+  return (
+    <section id="duvidas" className="py-24 md:py-32">
+      <Container className="grid items-start gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
+        <div className="lg:sticky lg:top-28">
+          <Eyebrow>Dúvidas frequentes</Eyebrow>
+          <SplitHeading parts={['Tudo o que você', { em: 'precisa saber' }]} className="mb-5 mt-4 font-serif text-[clamp(2rem,4.4vw,3.2rem)] font-normal leading-[1.1] text-cocoa" />
+          <Reveal as="p" delay={0.15} className="text-[1.06rem] text-muted">Ficou alguma dúvida? Me chama no WhatsApp que eu te explico com calma.</Reveal>
+        </div>
+        <div className="grid gap-3.5">
+          {FAQ.map(([q, a], k) => {
+            const isOpen = open === k;
+            return (
+              <Reveal key={q} delay={k * 0.06}>
+                <motion.div layout className={`overflow-hidden rounded-[20px] border border-cocoa/[.07] transition-[background,box-shadow] duration-500 ${isOpen ? 'bg-[#FFFDF9] shadow-[0_10px_30px_-20px_rgba(90,58,42,.4)]' : 'bg-paper'}`}>
+                  <button onClick={() => setOpen(isOpen ? -1 : k)} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-[1.02rem] font-semibold text-cocoa" aria-expanded={isOpen}>
+                    {q}
+                    <motion.span animate={{ rotate: isOpen ? 45 : 0, backgroundColor: isOpen ? '#B86B4B' : '#EFE3D3', color: isOpen ? '#FFFCF8' : '#5A3A2A' }} transition={{ duration: 0.4, ease: EASE }} className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-lg leading-none">+</motion.span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.55, ease: EASE }}
+                      >
+                        <p className="px-6 pb-6 text-muted">{a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Chamada final — ondas como a sucção da ventosa                      */
+/* ------------------------------------------------------------------ */
+function FinalCta() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'center center'] });
+  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
+  const radius = useTransform(scrollYProgress, [0, 1], [80, 48]);
+  return (
+    <section ref={ref} className="pb-24 pt-6 md:pb-32">
+      <Container>
+        <motion.div
+          style={{ scale, borderRadius: radius }}
+          className="relative overflow-hidden bg-[radial-gradient(circle_at_20%_20%,#D08A69,#B86B4B_40%,#8F4C33)] px-6 py-20 text-center text-paper sm:px-10 sm:py-24"
+        >
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            {[0, 1, 2, 3].map((k) => (
+              <motion.span
+                key={k}
+                className="absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/25"
+                animate={{ scale: [0.4, 2.6], opacity: [0.7, 0] }}
+                transition={{ duration: 6, repeat: Infinity, delay: k * 1.5, ease: 'easeOut' }}
+              />
+            ))}
+          </div>
+          <SplitHeading
+            parts={['Pronta(o) para sentir o corpo', { em: 'mais leve?' }]}
+            emClass="text-[#FBE3D3]"
+            className="relative mx-auto mb-5 max-w-[16ch] font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-normal leading-[1.08] text-paper"
+          />
+          <Reveal as="p" delay={0.2} className="relative mx-auto mb-9 max-w-[52ch] text-[1.08rem] opacity-90">
+            Agende sua sessão agora e dê ao seu corpo o cuidado que ele está pedindo.
+          </Reveal>
+          <Reveal delay={0.3} className="relative inline-block w-full sm:w-auto">
+            <Magnetic strength={0.4}><Button href={wa()} variant="light" className="w-full sm:w-auto"><WaIcon /> Agendar minha sessão</Button></Magnetic>
+          </Reveal>
+        </motion.div>
+      </Container>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Rodapé + WhatsApp flutuante                                         */
+/* ------------------------------------------------------------------ */
+function Footer() {
+  return (
+    <footer className="bg-ink pb-8 pt-16 text-[0.92rem] text-[#CDBFB3]">
+      <Container>
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+          <div>
+            <Logo light sub="Liberação Miofascial & Ventosaterapia" />
+            <p className="mt-5 max-w-[36ch]">Cuidado, bem-estar e qualidade de vida. 🤎🌿</p>
+            <div className="mt-6 flex gap-2.5">
+              {[
+                [INSTAGRAM, 'Instagram', <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-[18px] w-[18px]"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></svg>],
+                [wa(), 'WhatsApp', <WaIcon className="h-[18px] w-[18px]" />],
+              ].map(([href, label, icon]) => (
+                <motion.a key={label} href={href} target="_blank" rel="noopener" aria-label={label} whileHover={{ y: -3 }}
+                  className="grid h-11 w-11 place-items-center rounded-full border border-white/15 transition-colors hover:border-clay hover:bg-clay hover:text-paper">{icon}</motion.a>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 className="mb-4 font-serif text-lg font-normal text-paper">Navegação</h4>
+            <ul className="grid gap-2.5">{NAV.map(([h, l]) => <li key={h}><a href={h} className="transition-colors hover:text-peach">{l}</a></li>)}</ul>
+          </div>
+          <div>
+            <h4 className="mb-4 font-serif text-lg font-normal text-paper">Contato</h4>
+            <ul className="grid gap-2.5">
+              <li><a href={wa()} target="_blank" rel="noopener" className="transition-colors hover:text-peach">(47) 99720-5699</a></li>
+              <li><a href={INSTAGRAM} target="_blank" rel="noopener" className="transition-colors hover:text-peach">@marinasilssamafra</a></li>
+              {/* Preencha com a cidade / endereço de atendimento */}
+              <li>Atendimento com hora marcada</li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-12 flex flex-wrap justify-between gap-4 border-t border-white/[.08] pt-6 text-[0.8rem] opacity-70">
+          <span>© {new Date().getFullYear()} Mari Mafra. Todos os direitos reservados.</span>
+          <span>As terapias não substituem acompanhamento médico.</span>
+        </div>
+      </Container>
+    </footer>
+  );
+}
+
+function WhatsFloat() {
+  const { scrollY } = useScroll();
+  const [show, setShow] = useState(false);
+  useMotionValueEvent(scrollY, 'change', (v) => setShow(v > 500));
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.a
+          href={wa()} target="_blank" rel="noopener" aria-label="Falar no WhatsApp"
+          initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }}
+          whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.92 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+          className="fixed bottom-5 right-5 z-[60] grid h-[60px] w-[60px] place-items-center rounded-full bg-[#25D366] text-white shadow-[0_12px_30px_-8px_rgba(37,211,102,.6)]"
+        >
+          <motion.span className="absolute inset-0 rounded-full bg-[#25D366]" animate={{ scale: [1, 1.6], opacity: [0.5, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }} />
+          <WaIcon className="relative h-8 w-8" />
+        </motion.a>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* App                                                                 */
+/* ------------------------------------------------------------------ */
+function App() {
+  const reduce = useReduce();
+  const [intro, setIntro] = useState(true);
+  useSmoothScroll(!reduce);
+  useEffect(() => {
+    document.getElementById('boot')?.remove();
+    const t = setTimeout(() => setIntro(false), reduce ? 0 : 1500);
+    return () => clearTimeout(t);
+  }, []);
+  const ready = !intro;
+  return (
+    <MotionConfig reducedMotion={RESPECT_REDUCED_MOTION ? 'user' : 'never'}>
+      <Intro show={intro} />
+      <ScrollProgress />
+      <CursorGlow />
+      <Header ready={ready} />
+      <main id="top">
+        <Hero ready={ready} />
+        <Marquee />
+        <About />
+        <Services />
+        <Benefits />
+        <Who />
+        <Steps />
+        <Feedbacks />
+        <Faq />
+        <FinalCta />
+      </main>
+      <Footer />
+      <WhatsFloat />
+    </MotionConfig>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
