@@ -91,6 +91,18 @@ const wa = (msg = 'Olá, Mari! Vim pelo site e gostaria de agendar uma sessão.'
 const RESPECT_REDUCED_MOTION = false;
 const useReduce = () => { const r = useReducedMotion(); return RESPECT_REDUCED_MOTION && !!r; };
 
+// true quando a tela bate com a media query (ex.: '(min-width: 1024px)')
+function useMedia(query) {
+  const [match, setMatch] = useState(() => window.matchMedia(query).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const on = () => setMatch(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, [query]);
+  return match;
+}
+
 const EASE = [0.22, 1, 0.36, 1];          // desaceleração suave e natural
 const EASE_INOUT = [0.76, 0, 0.24, 1];
 
@@ -510,6 +522,9 @@ function Hero({ ready }) {
   const archY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  // No celular a foto fica acima do texto: o parallax e o fade só fazem
+  // sentido lado a lado (desktop), senão o texto aparece "apagado".
+  const desktop = useMedia('(min-width: 1024px)');
 
   const onMove = (e) => {
     if (reduce) return;
@@ -543,7 +558,7 @@ function Hero({ ready }) {
       </motion.div>
 
       <Container className="relative grid items-center gap-12 lg:grid-cols-[1.1fr_.9fr] lg:gap-16">
-        <motion.div style={{ y: textY, opacity: fade }}>
+        <motion.div style={desktop ? { y: textY, opacity: fade } : undefined}>
           <motion.span {...item(0.1)} className="flex items-center gap-3 text-[0.74rem] font-bold uppercase tracking-[0.2em] text-sagedeep">
             <span className="h-px w-7 bg-current" />Mari Mafra · Miofascial & Ventosa
           </motion.span>
@@ -577,7 +592,7 @@ function Hero({ ready }) {
         </motion.div>
 
         {/* Arco com ventosas animadas */}
-        <motion.div style={{ y: archY }} className="relative order-first mx-auto w-[78%] max-w-[290px] sm:max-w-[360px] lg:order-none lg:w-full lg:max-w-[440px]">
+        <motion.div style={desktop ? { y: archY } : undefined} className="relative order-first mx-auto w-[78%] max-w-[290px] sm:max-w-[360px] lg:order-none lg:w-full lg:max-w-[440px]">
           <motion.div
             initial={{ clipPath: 'inset(100% 0% 0% 0% round 240px 240px 32px 32px)' }}
             animate={ready ? { clipPath: 'inset(0% 0% 0% 0% round 240px 240px 32px 32px)' } : {}}
